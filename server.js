@@ -39,19 +39,19 @@ function start() [
         switch (answer.task) {
             case "Add Employee, Role, or Department":
                addSomething();
-               break;
+            break;
            
             case "View all Employees or Departments": 
                viewSomething();
-               break;
+            break;
    
             case "Update Roles or Managers":
                 updateSomething();
-                break;
+            break;
    
             case "Delete Employee":
                 deleteEmployee();
-                break;
+            break;
    
             case "Exit":
                 console.log("Connection Terminated!  Goodbye!")
@@ -60,3 +60,34 @@ function start() [
         }
     });
 ]
+
+function addSomething() {
+    inquirer
+      .prompt([
+       {
+        name: "add",
+        type: "list",
+        message: "What would you like to add?",
+        choices: [
+            "Department",
+            "Role",
+            "Employee"
+        ]
+       }
+    ])
+      .then(function(answer) {
+        switch (answer.add) {
+            case "Employee":
+                addEmployee();
+            break;
+        
+            case "Role":
+                addRole();
+            break;
+
+            case "Department":
+                addDepartment();
+            break;
+        }
+    });
+}
