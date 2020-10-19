@@ -161,7 +161,7 @@ function addEmployee() {
                 },
                  function(err, res) {
                    if (err) throw err;
-                   console.log("Employee has been added");
+                   console.log("Successfully added employee");
                    start();
                  }           
                 );
@@ -180,7 +180,7 @@ function addEmployee() {
               },
                function(err, res) {
                  if (err) throw err;
-                 console.log("Employee has been added");
+                 console.log("Successfully added employee");
                  start();
                }           
               );
@@ -235,7 +235,7 @@ function addRole() {
                 },
                 function(err, res) {
                     if (err) throw err;
-                    console.log("Role has been added");
+                    console.log("Successfully added role");
                     start();
                 }
                           
@@ -245,4 +245,30 @@ function addRole() {
             
         })
     });
+}
+
+function addDepartment() {
+    inquirer
+      .prompt([
+        {
+          name: "department",
+          type: "input",
+          message: "What is the name of the department you would like to add?"
+        }
+      ])
+      .then(function(answer) {
+          var department = answer.department;
+          var query = connection.query(
+           "INSERT INTO department SET ?",
+           {
+             name: department 
+           },
+           function(err, res) {
+               if (err) throw err;
+               console.log("Successfully added department");
+               start();
+           }           
+          );
+          
+      })
 }
