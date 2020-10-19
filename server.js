@@ -54,7 +54,7 @@ function start() [
             break;
    
             case "Exit":
-                console.log("Connection Terminated!  Goodbye!")
+                console.log("Your connection has been terminated. Have a nice day")
                 connection.end();
                 
         }
@@ -90,4 +90,104 @@ function addSomething() {
             break;
         }
     });
+}
+
+function addEmployee() {
+    connection.query("SELECT * FROM role", function (err, results) {
+      connection.query("SELECT * FROM employee", function (err, res) {
+      inquirer
+        .prompt([
+          {
+            name: "firstName",
+            type: "input",
+            message: "What is the employee's first name?"
+          },
+          
+          {
+            name: "lastName",
+            type: "input",
+            message: "What is the employee's last name?"    
+          },
+  
+          {
+            name: "role",
+            type: "list",
+            message: "What will be the role of the employee?",
+            choices: function() {
+              var choiceArray = [];
+              for (var i = 0; i < results.length; i++) {
+                  choiceArray.push(results[i].title);
+              }
+              return choiceArray;
+            }
+          },
+  
+          {
+            name: "manager",
+            type: "list",
+            message: "Who is this employee's manager?",
+            choices: function() {
+              var managerArray = [];
+              for (var i = 0; i < res.length; i++) {
+                  managerArray.push(res[i].first_name + " " + res[i].last_name);
+              }
+              var none = "None";
+              managerArray.push(none);
+              return managerArray;
+            }
+  
+          }
+         
+        ])
+        .then(function(answer) {
+            var firstName = answer.firstName;
+            var lastName = answer.lastName;
+            var str = answer.manager;
+            manager = str.split(" ");
+            var first = manager[0];
+            var last = manager[1];
+            if (answer.manager !== "None") {
+              connection.query("SELECT id FROM employee WHERE ?", {last_name: last }, function (err, ans) {
+                var managerAnswer = ans[0].id;
+              connection.query("SELECT id FROM role WHERE ?", { title: answer.role }, function (err, res) {
+                var roleAnswer = res[0].id;
+                var query = connection.query(
+                 "INSERT INTO employee SET ?",
+                {
+                 first_name: firstName,
+                 last_name: lastName,
+                 role_id: roleAnswer,
+                 manager_id: managerAnswer
+                },
+                 function(err, res) {
+                   if (err) throw err;
+                   console.log("Employee has been added");
+                   start();
+                 }           
+                );
+              
+              });
+             })
+            } else {
+             connection.query("SELECT id FROM role WHERE ?", { title: answer.role }, function (err, res) {
+              var roleAnswer = res[0].id;
+              var query = connection.query(
+               "INSERT INTO employee SET ?",
+              {
+               first_name: firstName,
+               last_name: lastName,
+               role_id: roleAnswer
+              },
+               function(err, res) {
+                 if (err) throw err;
+                 console.log("Employee has been added");
+                 start();
+               }           
+              );
+            
+            });
+        }
+      });
+    });
+   });
 }
