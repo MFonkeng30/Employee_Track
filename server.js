@@ -191,3 +191,58 @@ function addEmployee() {
     });
    });
 }
+
+function addRole() {
+    connection.query("SELECT * FROM department", function(err, results) {
+      inquirer
+        .prompt([
+          {
+            name: "title",
+            type: "input",
+            message: "What is the title of the role?"
+          },
+          
+          {
+            name: "salary",
+            type: "input",
+            message: "What is the annual salary?"    
+          },
+  
+          {
+            name: "department",
+            type: "list",
+            message: "What department does this role belong to?",
+            choices: function() {
+                var choiceArray = [];
+                for (var i = 0; i < results.length; i++) {
+                    choiceArray.push(results[i].name);
+                }
+                return choiceArray;
+            }
+          }
+        ])
+        .then(function(answer) {
+            var title = answer.title;
+            var salary = answer.salary;
+            var departmentId = connection.query("SELECT id FROM department WHERE ?", { name: answer.department }, function(err, res) {
+              var answer = res[0].id;
+              var query = connection.query(
+                "INSERT INTO role SET ?",
+                {
+                  title: title,
+                  salary: salary,
+                  department_id: answer
+                },
+                function(err, res) {
+                    if (err) throw err;
+                    console.log("Role has been added");
+                    start();
+                }
+                          
+               );
+            }); 
+            
+            
+        })
+    });
+}
