@@ -161,7 +161,7 @@ function addEmployee() {
                 },
                  function(err, res) {
                    if (err) throw err;
-                   console.log("Successfully added employee");
+                   console.log("Successfully added: answer.employee");
                    start();
                  }           
                 );
@@ -180,7 +180,7 @@ function addEmployee() {
               },
                function(err, res) {
                  if (err) throw err;
-                 console.log("Successfully added employee");
+                 console.log("Successfully added: " + answer.employee");
                  start();
                }           
               );
@@ -302,4 +302,52 @@ function viewSomething() {
             break;
         }
       });
+}
+
+function viewRole() {
+  
+    connection.query("SELECT role.id, role.title, role.salary, department.name FROM role LEFT JOIN department ON role.department_id = department.id ORDER BY department.name", function(err, results) {
+      var table = new Table({
+        head: ['Title', 'Salary', 'Department']
+        , colWidths: [25, 10, 20]
+        });
+      for (var i = 0; i < results.length; i++) {
+        var title = results[i].title;
+        var salary = results[i].salary;
+        var department = results[i].name;
+        table.push(
+          [title, salary, department]
+          
+        );
+      }
+      console.log(table.toString());
+      console.log(" ");
+      start();
+    });
+      
+}
+
+function viewDepartment() {
+    console.log("Here are all current departments");
+    console.log(" ");
+    var table = new Table({
+      head: ['ID', 'Department']
+      , colWidths: [10, 20]
+      });    
+    connection.query("SELECT * FROM department", function(err, results) {
+      
+      for (var i = 0; i < results.length; i++) {
+        var department = results[i].name;
+        var id = results[i].id;
+        
+        table.push(
+          [id, department]
+          
+        );
+      }
+      console.log(table.toString());
+      console.log(" ");
+      start();
+    })
+  
 }
