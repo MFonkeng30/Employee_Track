@@ -351,3 +351,60 @@ function viewDepartment() {
     })
   
 }
+
+function sortByDepartment() {
+  connection.query("SELECT CONCAT(e.first_name, ' ', e.last_name) AS Employee, IFNULL(CONCAT(m.first_name, ' ', m.last_name), 'No Manager') AS Manager, role.title, role.salary, department.name FROM employee e LEFT JOIN employee m ON e.manager_id = m.id LEFT JOIN role ON e.role_id = role.id LEFT JOIN department ON role.department_id = department.id  ORDER BY department.name, e.last_name", function(err, results) {
+    var table = new Table({
+      head: ['Employee', 'Title', 'Salary', 'Department', 'Manager']
+      , colWidths: [20, 25, 10, 20, 20]
+      });
+    for (var i = 0; i < results.length; i++) {
+      var employee = results[i].Employee;
+      var manager = results[i].Manager;
+      var employeeTitle = results[i].title;
+      var employeeSalary = results[i].salary;
+      var employeeDept = results[i].name;
+     
+
+
+      table.push(
+        [employee, employeeTitle, employeeSalary, employeeDept, manager]
+        
+      );
+     
+    }
+    console.log(table.toString());
+    console.log(" ");
+    askUser();
+  });  
+       
+}
+
+function sortByManager() {
+    connection.query("SELECT CONCAT(e.first_name, ' ', e.last_name) AS Employee, IFNULL(CONCAT(m.first_name, ' ', m.last_name), 'No Manager') AS Manager, role.title, role.salary, department.name FROM employee e LEFT JOIN employee m ON e.manager_id = m.id LEFT JOIN role ON e.role_id = role.id LEFT JOIN department ON role.department_id = department.id  ORDER BY Manager, department.name", function(err, results) {
+      var table = new Table({
+        head: ['Employee', 'Title', 'Salary', 'Department', 'Manager']
+        , colWidths: [20, 25, 10, 20, 20]
+        });
+      for (var i = 0; i < results.length; i++) {
+        var employee = results[i].Employee;
+        var manager = results[i].Manager;
+        var employeeTitle = results[i].title;
+        var employeeSalary = results[i].salary;
+        var employeeDept = results[i].name;
+       
+  
+  
+        table.push(
+          [employee, employeeTitle, employeeSalary, employeeDept, manager]
+          
+        );
+       
+      }
+      console.log(table.toString());
+      console.log(" ");
+      askUser();
+    });  
+  
+}
+  
