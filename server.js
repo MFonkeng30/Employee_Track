@@ -559,3 +559,40 @@ function updateRole() {
     })
   
 }
+
+function deleteEmployee() {
+    connection.query("SELECT * FROM employee", function(err, res) {
+      inquirer
+      .prompt([
+        {
+          name: "deleteWho",
+          type: "list",
+          message: "Which employee would you like to remove?",
+          choices: function() {
+            var employeeArray = [];
+            for (var i = 0; i < res.length; i++) {
+              employeeArray.push((res[i].first_name + " " + res[i].last_name));
+            }
+            return employeeArray;
+          }
+        }
+      ])
+      .then(function(answer) {
+        var str = answer.deleteWho;
+        employeeName = str.split(" ");
+        var first = employeeName[0];
+        var last = employeeName[1];
+        connection.query("DELETE FROM employee WHERE ?",
+          {
+            last_name: last
+          },
+          function(err, res) {
+            if (err) throw err;
+            console.log("Employee removed!");
+            start();
+          }
+        );
+      });
+    });
+   
+  }
