@@ -58,5 +58,5 @@ function start() [
                 connection.end();
                 
         }
-    })
+    });
 ]
