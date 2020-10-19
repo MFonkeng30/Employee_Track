@@ -1,6 +1,6 @@
-var inquirer = require("inquirer");
-var table = require("console.table");
-var mysql = require("mysql");
+const inquirer = require("inquirer");
+const table = require("console.table");
+const mysql = require("mysql");
 const { start } = require("repl");
 
 var connection = mysql.createConnection({
@@ -271,4 +271,35 @@ function addDepartment() {
           );
           
       })
+}
+
+function viewSomething() {
+    inquirer
+      .prompt([
+       {
+        name: "view",
+        type: "list",
+        message: "What would you like to view?",
+        choices: [
+            "Employees",
+            "Roles",
+            "Departments"
+        ]
+       }
+      ])
+      .then(function(answer) {
+        switch (answer.view) {
+        case "Employees":
+            viewEmployee();
+            break;
+        
+        case "Roles":
+            viewRole();
+            break;
+
+        case "Departments":
+            viewDepartment();
+            break;
+        }
+      });
 }
