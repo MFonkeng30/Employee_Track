@@ -407,4 +407,30 @@ function sortByManager() {
     });  
   
 }
+
+function updateSomething() {
+    inquirer
+      .prompt([
+        {
+          name: "updateWhat",
+          type: "list",
+          message: "What would you like to update?",
+          choices: [
+            "Update current employee's role",
+            "Update current employee's manager"
+          ]
+        }
+      ])
+      .then(function(answer) {
+        switch (answer.updateWhat) {
+        case "Update current employee's role":
+            updateRole();
+            break;
+        
+        case "Update current employee's manager":
+            updateManager();
+            break;
   
+        }
+      });
+}
