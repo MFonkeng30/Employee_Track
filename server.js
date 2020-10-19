@@ -432,5 +432,130 @@ function updateSomething() {
             break;
   
         }
+    });
+}
+
+function updateRole() {
+    connection.query("SELECT * FROM role", function(err, results) {
+     connection.query("SELECT * FROM employee", function(err, res) {
+      inquirer
+        .prompt([
+         {
+          name: "employee",
+          type: "list",
+          message: "Who's role is changing?",
+          choices: function() {
+            var choicesArray = [];
+            for (var i = 0; i < res.length; i++) {
+                choicesArray.push(res[i].first_name + " " + res[i].last_name);
+            }
+            return choicesArray;
+          }
+        },
+  
+        {
+          name: "newRole",
+          type: "list",
+          message: "What is their new role?",
+          choices: function() {
+            var roleArray = [];
+            for (var i = 0; i < results.length; i++) {
+              roleArray.push(results[i].title);
+            }
+            return roleArray;
+          }
+        }    
+      ])
+      .then(function(answer) {
+        var newRole = answer.newRole;
+        var str = answer.employee;
+        employeeName = str.split(" ");
+        var first = employeeName[0];
+        var last = employeeName[1];
+        connection.query("SELECT id FROM role WHERE ?", { title: newRole }, function(err, res) {
+          var newRoleId = res[0].id;
+          connection.query("UPDATE employee SET ? WHERE ?",
+          [
+            {
+              role_id: newRoleId
+            },
+            {
+              last_name: last
+            }
+          ],        
+          function(err, res) {
+            if (err) throw err;
+            console.log("Successfully updated role");
+            start();
+          }
+          )
+        });
       });
+    }) 
+   })
+  }
+  
+  function updateManager() {
+    connection.query("SELECT * FROM employee", function (err, res) {
+      inquirer
+        .prompt([
+          {
+            name: "employee",
+            type: "list",
+            message: "Who is changing managers?",
+            choices: function() {
+              var employeeArray = [];
+              for (var i = 0; i < res.length; i++) {
+                employeeArray.push((res[i].first_name + " " + res[i].last_name));
+              }
+              return employeeArray;
+            }
+          },
+          {
+            name: "newManager",
+            type: "list",
+            message: "Who is their new manager?",
+            choices: function() {
+              var managerArray = [];
+              for (var i = 0; i < res.length; i++) {
+                managerArray.push((res[i].first_name + " " + res[i].last_name));
+              }
+              return managerArray;
+            } 
+  
+          }
+      
+        ])
+        .then(function(answer) {
+          var str = answer.employee;
+          employeeName = str.split(" ");
+          var first = employeeName[0];
+          var last = employeeName[1];
+          var manstr = answer.newManager;
+          managerName = manstr.split(" ");
+          var manFirst = managerName[0];
+          var manLast = managerName[1];
+          connection.query("SELECT id FROM employee WHERE ?", {last_name: manLast}, function(err, result){
+            var newManId = result[0].id;
+            connection.query("UPDATE employee SET ? WHERE ?",
+            [
+              {
+                manager_id: newManId
+              },
+              {
+                last_name: last
+              }
+            ],        
+            function(err, res) {
+              if (err) throw err;
+              console.log("Succcessfully updated manager");
+              start();
+            }
+            )
+  
+          })
+          
+        })
+    })
+  
 }
