@@ -1,0 +1,26 @@
+{
+  "name": "employee_track",
+  "version": "1.0.0",
+  "description": "This program allows a user to create and freely edit a databas",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \\\"Error: no test specified\\\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MFonkeng30/Employee_Track.git"
+  },
+  "author": "Muendem Fonkeng",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MFonkeng30/Employee_Track/issues"
+  },
+  "homepage": "https://github.com/MFonkeng30/Employee_Track#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "inquirer": "^7.3.3",
+    "mysql": "^2.18.1",
+    "repl": "^0.1.3"
+  }
+}
