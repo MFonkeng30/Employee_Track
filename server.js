@@ -21,13 +21,13 @@ connection.connect(function(err) {
     start();
 });
 
-function start() [
+function start() {
     inquirer
-    .prompt([
-        name: "task",
-        type: "list",
-        message: "What would you like to do?"
-        choices: [
+        .prompt([
+            name: "task",
+            type: "list",
+            message: "What would you like to do?"
+            choices: [
             "Add Employee, Role, or Department"
             "View all Employees or Departments"
             "Update Roles or Managers"
@@ -59,7 +59,7 @@ function start() [
                 
         }
     });
-]
+}
 
 function addSomething() {
     inquirer
