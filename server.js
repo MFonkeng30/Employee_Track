@@ -24,10 +24,10 @@ connection.connect(function(err) {
 function begin() {
     inquirer
         .prompt([
-            name, "choices",
-            type, "list",
-            message, "What would you like to do?",
-            choices, [
+            name: "choices",
+            type: "list",
+            message: "What would you like to do?",
+            choices: [
             "Add Employee, Role, or Department",
             "View all Employees or Departments",
             "Update Roles or Managers",
