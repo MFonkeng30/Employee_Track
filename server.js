@@ -24,7 +24,7 @@ connection.connect(function(err) {
 function begin() {
     inquirer
         .prompt([
-            name: "choices",
+            name: "task",
             type: "list",
             message: "What would you like to do?",
             choices: [
