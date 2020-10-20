@@ -18,10 +18,10 @@ connection.connect(function(err) {
     if (err) throw err
     console.log("connected as id " + connection.threadId)
     console.log("Hello")
-    start();
+    begin();
 });
 
-function start() {
+function begin() {
     inquirer
         .prompt([
             name, "choices",
@@ -162,7 +162,7 @@ function addEmployee() {
                  function(err, res) {
                    if (err) throw err;
                    console.log("Successfully added: answer.employee");
-                   start();
+                   begin();
                  }           
                 );
               
@@ -181,7 +181,7 @@ function addEmployee() {
                function(err, res) {
                  if (err) throw err;
                  console.log("Successfully added: " + answer.employee),
-                 start();
+                 begin();
                }           
               );
             
@@ -236,7 +236,7 @@ function addRole() {
                 function(err, res) {
                     if (err) throw err;
                     console.log("Successfully added role");
-                    start();
+                    begin();
                 }
                           
                );
@@ -266,7 +266,7 @@ function addDepartment() {
            function(err, res) {
                if (err) throw err;
                console.log("Successfully added department");
-               start();
+               begin();
            }           
           );
           
@@ -322,7 +322,7 @@ function viewRole() {
       }
       console.log(table.toString());
       console.log(" ");
-      start();
+      begin();
     });
       
 }
@@ -347,7 +347,7 @@ function viewDepartment() {
       }
       console.log(table.toString());
       console.log(" ");
-      start();
+      begin();
     })
   
 }
@@ -375,7 +375,7 @@ function sortByDepartment() {
     }
     console.log(table.toString());
     console.log(" ");
-    askUser();
+    begin();
   });  
        
 }
@@ -403,7 +403,7 @@ function sortByManager() {
       }
       console.log(table.toString());
       console.log(" ");
-      askUser();
+      begin();
     });  
   
 }
@@ -486,7 +486,7 @@ function updateRole() {
           function(err, res) {
             if (err) throw err;
             console.log("Successfully updated role");
-            start();
+            begin();
           }
           )
         });
@@ -549,7 +549,7 @@ function updateRole() {
             function(err, res) {
               if (err) throw err;
               console.log("Succcessfully updated manager");
-              start();
+              begin();
             }
             )
   
@@ -589,7 +589,7 @@ function deleteEmployee() {
           function(err, res) {
             if (err) throw err;
             console.log("Employee removed!");
-            start();
+            begin();
           }
         );
       });
