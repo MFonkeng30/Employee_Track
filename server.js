@@ -24,6 +24,7 @@ connection.connect(function(err) {
 function begin() {
     inquirer
         .prompt([
+        {
             name: "task",
             type: "list",
             message: "What would you like to do?",
@@ -33,7 +34,8 @@ function begin() {
             "Update Roles or Managers",
             "Delete Employee",
             "Exit" 
-        ]
+            ]
+        }
     ])
     .then(function(answer) {
         switch (answer.task) {
