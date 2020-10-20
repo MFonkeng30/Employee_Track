@@ -24,14 +24,14 @@ connection.connect(function(err) {
 function start() {
     inquirer
         .prompt([
-            name: "task",
-            type: "list",
-            message: "What would you like to do?"
-            choices: [
-            "Add Employee, Role, or Department"
-            "View all Employees or Departments"
-            "Update Roles or Managers"
-            "Delete Employee"
+            name, "choices",
+            type, "list",
+            message, "What would you like to do?",
+            choices, [
+            "Add Employee, Role, or Department",
+            "View all Employees or Departments",
+            "Update Roles or Managers",
+            "Delete Employee",
             "Exit" 
         ]
     ])
@@ -180,7 +180,7 @@ function addEmployee() {
               },
                function(err, res) {
                  if (err) throw err;
-                 console.log("Successfully added: " + answer.employee");
+                 console.log("Successfully added: " + answer.employee),
                  start();
                }           
               );
